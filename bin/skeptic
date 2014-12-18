@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+require 'psychic/skeptic/cli'
+
+Psychic::Skeptic::CLI.start
