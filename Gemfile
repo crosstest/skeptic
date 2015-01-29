@@ -1,12 +1,12 @@
 source 'https://rubygems.org'
 
-source "https://rubygems.org"
+source 'https://rubygems.org'
 
 gemspec
 
 # This hack inspired by rspec...
 branch = begin
-           File.read(File.expand_path("../maintenance-branch", __FILE__)).chomp
+           File.read(File.expand_path('../maintenance-branch', __FILE__)).chomp
          rescue
            'working'
          end
