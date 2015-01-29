@@ -2,7 +2,7 @@ require 'spec_helper'
 
 module Crosstest
   module Skeptic
-    RSpec.describe Result do
+    describe Result do
       describe '#status' do
         context 'mixed pass/fail' do
           let(:subject) do

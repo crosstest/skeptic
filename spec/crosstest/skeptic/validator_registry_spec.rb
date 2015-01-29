@@ -1,6 +1,6 @@
 module Crosstest
   module Skeptic
-    RSpec.describe ValidatorRegistry do
+    describe ValidatorRegistry do
       subject(:registry) { Crosstest::Skeptic::ValidatorRegistry }
 
       describe '#register' do
@@ -24,14 +24,12 @@ module Crosstest
         let(:java_validator) { Fabricate(:validator, suite: 'java', scenario: //) }
         let(:ruby_validator) { Fabricate(:validator, suite: 'ruby') }
 
-        before do
+        it 'returns registered validators that match the scope of the scenario' do
           registry.register(java_hello_world_validator)
           registry.register(java_validator)
           registry.register(ruby_validator)
-        end
 
-        it 'returns registered validators that match the scope of the scenario' do
-          scenario = Fabricate(:scenario, suite: 'java', name: 'hello world')
+          scenario = Fabricate(:scenario_definition, suite: 'java', name: 'hello world')
           validators = registry.validators_for scenario
           expect(validators).to include(java_hello_world_validator, java_validator)
           expect(validators).to_not include(ruby_validator)

@@ -3,7 +3,7 @@ require 'spec_helper'
 module Crosstest
   module Skeptic
     RSpec.describe ScenarioDefinition do
-      let(:project) { Fabricate(:project) }
+      let(:psychic) { Fabricate(:psychic) }
       let(:definition) do
         {
           name: 'My test scenario',
@@ -20,11 +20,13 @@ module Crosstest
       subject { described_class.new(definition) }
 
       describe '#build' do
-        let(:scenario) { subject.build project }
+        let(:scenario) { subject.build psychic }
 
         it 'builds a Scenario for the Project' do
           expect(scenario).to be_an_instance_of Scenario
-          expect(scenario.psychic).to eq(project)
+          # It actually creates a Psychic for the psychic
+          expect(scenario.psychic.name).to eq(psychic.name)
+          expect(scenario.psychic.basedir.to_s).to eq(psychic.basedir.to_s)
         end
 
         xit 'finds the source' do

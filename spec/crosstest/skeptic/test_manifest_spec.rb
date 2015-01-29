@@ -1,6 +1,6 @@
 module Crosstest
   module Skeptic
-    RSpec.describe TestManifest do
+    describe TestManifest do
       describe '#from_yaml' do
         subject(:manifest) { described_class.from_yaml 'spec/fixtures/skeptic.yaml' }
 

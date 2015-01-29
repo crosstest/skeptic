@@ -1,4 +1,4 @@
 #!/usr/bin/env ruby
-require 'psychic/skeptic/cli'
+require 'crosstest/skeptic/cli'
 
-Psychic::Skeptic::CLI.start
+Crosstest::Skeptic::CLI.start

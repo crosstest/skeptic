@@ -21,7 +21,7 @@ module Crosstest
 
         def validators_for(scenario)
           selected_validators = validators.select { |v| v.should_validate? scenario }
-          selected_validators.empty? ? [Crosstest.configuration.default_validator] : selected_validators
+          selected_validators.empty? ? [Skeptic.configuration.default_validator] : selected_validators
         end
 
         def clear

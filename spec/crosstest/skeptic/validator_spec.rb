@@ -2,7 +2,7 @@ require 'spec_helper'
 
 module Crosstest
   module Skeptic
-    RSpec.describe 'Validator' do
+    describe 'Validator' do
       describe '#initialize' do
         let(:global_matcher) { Validator::UNIVERSAL_MATCHER }
 
@@ -24,7 +24,7 @@ module Crosstest
 
       describe '#should_validate?' do
         let(:scenario) do
-          Fabricate(:scenario, suite: 'java', name: 'hello world')
+          Fabricate(:scenario_definition, suite: 'java', name: 'hello world')
         end
 
         it 'returns true if the scope matches the scope of the scenario' do
@@ -41,7 +41,12 @@ module Crosstest
       end
 
       describe '#validate' do
-        let(:scenario) { Fabricate(:scenario, result: Result.new) }
+        let(:psychic) { Fabricate(:psychic) }
+        let(:scenario) do
+          Fabricate(:scenario_definition).build(psychic).tap do | scenario |
+            scenario.result = Result.new
+          end
+        end
 
         it 'calls the validation callback' do
           called = false

@@ -26,10 +26,17 @@ RSpec.configure do | config |
   end
 end
 
+RSpec.configure do |c|
+  c.before(:each) do
+    Crosstest::Skeptic.reset
+  end
+  c.expose_current_running_example_as :example
+end
+
 # Configs recommended by RSpec
 RSpec.configure do |config|
   # config.warnings = true # Unfortunately this produces too many warnings in third-party code
-  config.disable_monkey_patching!
+  # config.disable_monkey_patching!
   config.filter_run :focus
   config.run_all_when_everything_filtered = true
 
@@ -52,7 +59,7 @@ RSpec.configure do |config|
     config.default_formatter = 'doc'
   end
 
-  config.profile_examples = 10
+  # config.profile_examples = 10
   config.order = :random
   Kernel.srand config.seed
 end

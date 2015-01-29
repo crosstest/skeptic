@@ -1,5 +1,11 @@
+require 'crosstest/core'
+require 'crosstest/psychic'
+require 'crosstest/code2doc'
+require 'crosstest/skeptic/version'
+
 module Crosstest
   module Skeptic
+    autoload :Configuration, 'crosstest/skeptic/configuration'
     autoload :ScenarioDefinition, 'crosstest/skeptic/scenario_definition'
     autoload :PropertyDefinition, 'crosstest/skeptic/property_definition'
     autoload :Scenario, 'crosstest/skeptic/scenario'
@@ -13,5 +19,9 @@ module Crosstest
     autoload :Validation, 'crosstest/skeptic/validation'
     autoload :Validator, 'crosstest/skeptic/validator'
     autoload :ValidatorRegistry, 'crosstest/skeptic/validator_registry'
+
+    class << self
+      include Core::Configurable
+    end
   end
 end

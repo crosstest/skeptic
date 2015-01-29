@@ -1,8 +1,8 @@
 module Crosstest
   module Skeptic
-    RSpec.describe Scenario do
+    describe Scenario do
       subject(:scenario) do
-        project = Crosstest::Project.new name: 'some_sdk', basedir: 'spec/fixtures'
+        project = Crosstest::Psychic.new name: 'some_sdk', cwd: 'spec/fixtures'
         Fabricate(:scenario_definition, name: 'factorial', vars: {}).build(project)
       end
 
