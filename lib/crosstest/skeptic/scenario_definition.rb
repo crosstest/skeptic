@@ -10,6 +10,7 @@ module Crosstest
 
       def initialize(data)
         super
+        self.vars ||= Skeptic::TestManifest::Environment.new
         @full_name = [suite, name].join(' :: ').freeze
       end
 
