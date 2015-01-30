@@ -1,5 +1,5 @@
 module Crosstest
-  module Skeptic
+  class Skeptic
     class ScenarioDefinition < Crosstest::Core::Dash # rubocop:disable ClassLength
       required_field :name, String
       required_field :suite, String, required: true

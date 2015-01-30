@@ -1,5 +1,5 @@
 module Crosstest
-  module Skeptic
+  class Skeptic
     module TestStatuses
       def failed?
         evidence.last_attempted_action != evidence.last_completed_action

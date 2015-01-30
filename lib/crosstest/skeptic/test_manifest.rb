@@ -1,7 +1,7 @@
 require 'yaml'
 
 module Crosstest
-  module Skeptic
+  class Skeptic
     # Crosstest::TestManifest acts as a test manifest. It defines the test scenarios that should be run,
     # and may be shared across multiple projects when used for a compliance suite.
     #

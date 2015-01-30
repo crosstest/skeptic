@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 module Crosstest
-  module Skeptic
+  class Skeptic
     describe 'Validator' do
       describe '#initialize' do
         let(:global_matcher) { Validator::UNIVERSAL_MATCHER }

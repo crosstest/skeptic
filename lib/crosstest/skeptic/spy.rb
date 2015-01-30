@@ -1,5 +1,5 @@
 module Crosstest
-  module Skeptic
+  class Skeptic
     # # @abstract
     class Spy
       def initialize(app, opts = {})

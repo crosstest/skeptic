@@ -1,7 +1,7 @@
 require 'rspec/expectations'
 
 module Crosstest
-  module Skeptic
+  class Skeptic
     class Validator
       include RSpec::Matchers
 

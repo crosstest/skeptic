@@ -1,7 +1,7 @@
 require 'middleware'
 
 module Crosstest
-  module Skeptic
+  class Skeptic
     module Spies
       class << self
         attr_reader :spies

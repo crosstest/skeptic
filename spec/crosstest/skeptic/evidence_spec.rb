@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 module Crosstest
-  module Skeptic
+  class Skeptic
     RSpec.describe Evidence do
       let(:file) { Pathname('evidence.pstore').expand_path(current_dir) }
       subject { described_class.new(file) }

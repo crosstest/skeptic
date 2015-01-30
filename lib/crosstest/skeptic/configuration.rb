@@ -1,5 +1,5 @@
 module Crosstest
-  module Skeptic
+  class Skeptic
     class Configuration < Crosstest::Core::Dash
       def manifest
         @manifest ||= load_manifest('skeptic.yaml')

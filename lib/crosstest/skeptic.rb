@@ -5,7 +5,7 @@ require 'crosstest/skeptic/version'
 require 'crosstest/skeptic/errors'
 
 module Crosstest
-  module Skeptic
+  class Skeptic
     autoload :Configuration, 'crosstest/skeptic/configuration'
     autoload :ScenarioDefinition, 'crosstest/skeptic/scenario_definition'
     autoload :PropertyDefinition, 'crosstest/skeptic/property_definition'

@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 module Crosstest
-  module Skeptic
+  class Skeptic
     describe Result do
       describe '#status' do
         context 'mixed pass/fail' do

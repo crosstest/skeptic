@@ -1,5 +1,5 @@
 module Crosstest
-  module Skeptic
+  class Skeptic
     describe ValidatorRegistry do
       subject(:registry) { Crosstest::Skeptic::ValidatorRegistry }
 

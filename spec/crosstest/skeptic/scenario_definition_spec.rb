@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 module Crosstest
-  module Skeptic
+  class Skeptic
     RSpec.describe ScenarioDefinition do
       let(:psychic) { Fabricate(:psychic) }
       let(:definition) do

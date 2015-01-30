@@ -1,7 +1,7 @@
 require 'pstore'
 
 module Crosstest
-  module Skeptic
+  class Skeptic
     class Evidence < Crosstest::Core::Dash
       module Persistable
         attr_reader :file

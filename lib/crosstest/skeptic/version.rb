@@ -1,5 +1,5 @@
 module Crosstest
-  module Skeptic
+  class Skeptic
     VERSION = '0.0.1'
   end
 end

@@ -1,5 +1,5 @@
 module Crosstest
-  module Skeptic
+  class Skeptic
     class Result < Crosstest::Core::Dash
       extend Forwardable
       field :execution_result, Crosstest::Shell::ExecutionResult

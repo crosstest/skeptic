@@ -1,5 +1,5 @@
 module Crosstest
-  module Skeptic
+  class Skeptic
     # Exception class capturing what caused an scenario to die.
     class ScenarioFailure < TransientFailure; end
 

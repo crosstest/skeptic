@@ -1,7 +1,7 @@
 require 'singleton'
 
 module Crosstest
-  module Skeptic
+  class Skeptic
     class ValidatorRegistry
       include Singleton
 

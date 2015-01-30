@@ -1,5 +1,5 @@
 module Crosstest
-  module Skeptic
+  class Skeptic
     module TestTransitions
       def detect
         transition_to :detect
@@ -75,7 +75,7 @@ module Crosstest
         end
         evidence.last_completed_action = what.to_s
         elapsed
-      rescue Crosstest::FeatureNotImplementedError => e
+      rescue FeatureNotImplementedError => e
         raise e
       rescue ActionFailed => e
         log_failure(what, e)
@@ -96,7 +96,7 @@ module Crosstest
           FSM.actions(last_completed_action, desired).each do |transition|
             transition_result = send("#{transition}_action")
           end
-        rescue Crosstest::FeatureNotImplementedError
+        rescue FeatureNotImplementedError
           warn("#{slug} is not implemented")
         rescue ActionFailed => e
           # Need to use with_friendly_errors again somewhere, since errors don't bubble up

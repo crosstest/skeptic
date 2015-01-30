@@ -19,7 +19,7 @@ require 'crosstest/code2doc/helpers/code_helper'
 #   this file. It's responsible for managing the test lifecycle.
 
 module Crosstest
-  module Skeptic
+  class Skeptic
     class Scenario < Crosstest::Core::Dash # rubocop:disable ClassLength
       extend Forwardable
       include Skeptic::TestTransitions

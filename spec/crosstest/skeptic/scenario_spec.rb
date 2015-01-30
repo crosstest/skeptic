@@ -1,5 +1,5 @@
 module Crosstest
-  module Skeptic
+  class Skeptic
     describe Scenario do
       subject(:scenario) do
         project = Crosstest::Psychic.new name: 'some_sdk', cwd: 'spec/fixtures'
