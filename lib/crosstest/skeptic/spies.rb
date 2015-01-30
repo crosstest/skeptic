@@ -22,7 +22,7 @@ module Crosstest
         def observe(scenario, &blk)
           middleware = Middleware::Builder.new
           spies.each do |spy|
-            middleware.use spy
+            middleware.use spy, Thread.current[:test_env_number]
           end
           middleware.use blk
           middleware.call(scenario)

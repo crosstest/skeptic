@@ -70,7 +70,7 @@ module Crosstest
 
       def detect!
         # fail FeatureNotImplementedError, "Project #{psychic.name} has not been cloned" unless psychic.cloned?
-        self.code_sample = psychic.find_script(name)
+        self.code_sample = psychic.script(name)
         self.source_file = Pathname(code_sample)
         fail FeatureNotImplementedError, name if source_file.nil?
         fail FeatureNotImplementedError, name unless File.exist?(absolute_source_file)
@@ -85,9 +85,8 @@ module Crosstest
 
       def run!(spies = Crosstest::Skeptic::Spies)
         spies.observe(self) do
-          command = psychic.command_for_script(code_sample)
-          execution_result = psychic.run_script(name)
-          evidence.result = Skeptic::Result.new(execution_result: execution_result, source_file: source_file.to_s, command: command)
+          execution_result = code_sample.execute
+          evidence.result = Skeptic::Result.new(execution_result: execution_result, source_file: source_file.to_s)
         end
         result
       rescue Crosstest::Shell::ExecutionError => e

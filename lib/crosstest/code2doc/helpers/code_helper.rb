@@ -35,7 +35,8 @@ module Crosstest
         end
 
         def highlighted_code(formatter = 'terminal256')
-          highlight(source, language: project.language, filename: absolute_source_file, formatter: formatter)
+          language, _comment_style = Code2Doc::CommentStyles.infer source_file.extname
+          highlight(source, language: language, filename: absolute_source_file, formatter: formatter)
         end
 
         def code_block(source_code, language, opts = { format: :markdown })
