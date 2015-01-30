@@ -2,6 +2,7 @@ require 'crosstest/core'
 require 'crosstest/psychic'
 require 'crosstest/code2doc'
 require 'crosstest/skeptic/version'
+require 'crosstest/skeptic/errors'
 
 module Crosstest
   module Skeptic
