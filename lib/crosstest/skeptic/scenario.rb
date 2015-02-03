@@ -36,7 +36,7 @@ module Crosstest
       field :code_sample, Psychic::Script
       field :source_file, Pathname
 
-      def_delegators :scenario_definition, :name, :suite, :vars, :full_name
+      def_delegators :scenario_definition, :name, :suite, :full_name
       def_delegators :psychic, :basedir, :logger
       # def_delegators :code_sample, :source_file, :absolute_source_file
       def_delegators :evidence, :save
@@ -83,9 +83,13 @@ module Crosstest
         evidence.result = run!
       end
 
-      def run!(spies = Crosstest::Skeptic::Spies)
+      def run!(spies = Crosstest::Skeptic::Spies) # rubocop:disable Metrics/AbcSize
         spies.observe(self) do
-          execution_result = code_sample.execute
+          code_sample.env = vars.merge(ENV.to_hash)
+          if code_sample.params.is_a? String
+            code_sample.params = YAML.load(Psychic::Tokens.replace_tokens(code_sample.params, vars))
+          end
+          execution_result = code_sample.execute(env: vars)
           evidence.result = Skeptic::Result.new(execution_result: execution_result, source_file: source_file.to_s)
         end
         result

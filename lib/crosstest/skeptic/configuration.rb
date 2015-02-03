@@ -1,22 +1,23 @@
 module Crosstest
   class Skeptic
     class Configuration < Crosstest::Core::Dash
+      field :manifest, TestManifest
+      field :manifest_file, Pathname, default: 'skeptic.yaml'
+
       def manifest
-        @manifest ||= load_manifest('skeptic.yaml')
+        @manifest ||= load_manifest
       end
 
-      def manifest=(manifest_data)
-        if manifest_data.is_a? Skeptic::TestManifest
-          @manifest = manifest_data
-        else
-          @manifest = Skeptic::TestManifest.from_yaml manifest_data
-        end
-        @manifest
+      def manifest_file=(file)
+        @manifest = nil
+        self[:manifest_file] = file
+      end
+
+      def load_manifest
+        Skeptic::TestManifest.from_yaml manifest_file
       rescue Errno::ENOENT => e
         raise UserError, "Could not load test manifest: #{e.message}"
       end
-
-      alias_method :load_manifest, :manifest=
 
       # The callback used to validate code samples that
       # don't have a custom validator.  The default

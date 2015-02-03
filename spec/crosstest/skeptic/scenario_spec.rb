@@ -6,6 +6,18 @@ module Crosstest
         Fabricate(:scenario_definition, name: 'factorial', vars: {}).build(project)
       end
 
+      describe '#detect' do
+        pending 'finds a script for the scenario'
+      end
+
+      describe '#check' do
+        pending 'checks the script complies with static rules'
+      end
+
+      describe '#prepare' do
+        pending 'meets unmet dependencies'
+      end
+
       describe '#exec' do
         it 'executes the scenario and returns itself' do
           expect(scenario.exec).to be_an_instance_of Scenario

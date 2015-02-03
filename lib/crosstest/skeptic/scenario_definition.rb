@@ -21,7 +21,7 @@ module Crosstest
         rescue Errno::ENOENT
           nil
         end
-        psychic = Crosstest::Psychic.new(name: project.name, cwd: project.basedir, logger: project.logger, env: build_vars)
+        psychic = project.respond_to?(:psychic) ? project.psychic : project
         Scenario.new(psychic: psychic, scenario_definition: self, vars: build_vars, source_file: source_file)
       end
 

@@ -54,10 +54,6 @@ module Crosstest
         @scenario_definitions ||= build_scenario_definitions
       end
 
-      def scenarios
-        @scenarios ||= Set.new
-      end
-
       def build_scenario_definitions
         definitions = Set.new
         suites.each do | suite_name, suite |
@@ -66,15 +62,6 @@ module Crosstest
           end
         end
         definitions
-      end
-
-      def build_scenarios(projects)
-        scenario_definitions.each do | scenario_definition |
-          projects.values.each do | project |
-            scenario = scenario_definition.build project
-            scenarios << scenario
-          end
-        end
       end
     end
   end

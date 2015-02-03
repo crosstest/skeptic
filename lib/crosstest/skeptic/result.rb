@@ -8,6 +8,12 @@ module Crosstest
       field :data, Hash
       field :validations, Hash[String => Validation], default: {}
 
+      def successful?
+        execution_result.successful?
+      end
+
+      alias_method :success?, :successful?
+
       def status
         # A feature can be validated by different suites, or manually vs an automated suite.
         # That's why there's a precedence rather than boolean algebra here...
