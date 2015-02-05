@@ -31,23 +31,25 @@ module Crosstest
         end
       end
 
-      def destroy
-        transition_to :destroy
+      def clear
+        # Transitioning would try to load the data we're clearing... let's just
+        # jump straight to the action.
+        clear_action
       end
 
-      def destroy_action
-        perform_action(:destroy, 'Destroying') do
-          destroy!
+      def clear_action
+        perform_action(:clear, 'Clearing') do
+          clear!
         end
       end
 
-      def test(_destroy_mode = :passing)
+      def test(_clear_mode = :passing)
         elapsed = Benchmark.measure do
           banner "Cleaning up any prior instances of #{slug}"
-          destroy
+          clear
           banner "Testing #{slug}"
           verify
-          # destroy if destroy_mode == :passing
+          # clear if clear_mode == :passing
         end
         info "Finished testing #{slug} #{Core::Util.duration(elapsed.real)}."
         evidence.duration = elapsed.real
@@ -55,7 +57,7 @@ module Crosstest
         evidence = nil # it's saved, free up memory...
         self
         # ensure
-        # destroy if destroy_mode == :always
+        # clear if clear_mode == :always
       end
 
       def perform_action(verb, output_verb)
@@ -87,7 +89,7 @@ module Crosstest
         raise ActionFailed,
               "Failed to complete ##{what} action: [#{e.message}]", e.backtrace
       ensure
-        save unless what == :destroy
+        save unless what == :clear
       end
 
       def transition_to(desired)
@@ -150,7 +152,7 @@ module Crosstest
           end
         end
 
-        TRANSITIONS = [:destroy, :detect, :exec, :verify]
+        TRANSITIONS = [:clear, :detect, :exec, :verify]
 
         # Determines the index of a state in the state lifecycle vector. Woah.
         #

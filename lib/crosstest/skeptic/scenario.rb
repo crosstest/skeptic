@@ -121,8 +121,8 @@ module Crosstest
         end
       end
 
-      def destroy!
-        @evidence.destroy
+      def clear!
+        @evidence.clear
         @evidence = nil
       end
 

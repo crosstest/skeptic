@@ -48,7 +48,7 @@ module Crosstest
           end
         end
 
-        def destroy
+        def clear
           @store = nil
           file.delete
         end

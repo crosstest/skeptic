@@ -69,7 +69,7 @@ module Crosstest
       summary_data.join("\n  ")
     end
 
-    acts_on_scenario :destroy
+    acts_on_scenario :clear
     acts_on_scenario :exec
   end
 end

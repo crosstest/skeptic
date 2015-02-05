@@ -18,7 +18,7 @@ eos
         config.manifest_file = File.expand_path('skeptic.yaml', current_dir)
       end
 
-      subject.destroy
+      subject.clear
     end
 
     let(:psychic) { Psychic.new(cwd: current_dir) }
