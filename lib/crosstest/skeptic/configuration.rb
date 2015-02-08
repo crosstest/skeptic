@@ -5,11 +5,11 @@ module Crosstest
       field :manifest_file, Pathname, default: 'skeptic.yaml'
 
       def manifest
-        @manifest ||= load_manifest
+        self[:manifest] ||= load_manifest
       end
 
       def manifest_file=(file)
-        @manifest = nil
+        self[:manifest] = nil
         self[:manifest_file] = file
       end
 

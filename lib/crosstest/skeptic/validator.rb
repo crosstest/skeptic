@@ -1,5 +1,3 @@
-require 'rspec/expectations'
-
 module Crosstest
   class Skeptic
     class Validator

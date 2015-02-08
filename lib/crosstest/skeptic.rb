@@ -1,3 +1,4 @@
+require 'rspec/expectations' # exceptions are being stored as classes, so this is needed to load
 require 'crosstest/core'
 require 'crosstest/psychic'
 require 'crosstest/code2doc'
@@ -25,8 +26,8 @@ module Crosstest
       include Core::Configurable
 
       def acts_on_scenario(action)
-        define_method action do
-          scenarios.each do | scenario |
+        define_method action do | regex = 'all', options = {} |
+          scenarios(regex, options).each do | scenario |
             scenario.public_send(action)
           end
         end
@@ -35,18 +36,11 @@ module Crosstest
 
     def initialize(psychic = Psychic.new)
       @psychic = psychic
+      @scenarios ||= build_scenarios
     end
 
     def manifest
       Skeptic.configuration.manifest
-    end
-
-    def scenarios
-      @scenarios ||= build_scenarios
-    end
-
-    def scenario(name)
-      scenarios.find { |s| s.name == name }
     end
 
     def scenario_definitions
@@ -59,6 +53,34 @@ module Crosstest
       end
     end
 
+    def scenario(name)
+      scenarios.find { |s| s.name == name }
+    end
+
+    def select_scenarios(regexp)
+      regexp ||= 'all'
+      if regexp == 'all'
+        return @scenarios
+      else
+        selected_scenarios = @scenarios.find { |c| c.full_name == regexp } ||
+                             @scenarios.select { |c| c.full_name =~ /#{regexp}/i }
+      end
+
+      if selected_scenarios.is_a? Array
+        selected_scenarios
+      else
+        [selected_scenarios]
+      end
+    end
+
+    def scenarios(regexp = 'all', options = {})
+      selected_scenarios = select_scenarios regexp
+      selected_scenarios.keep_if { |scenario| scenario.failed? == options[:failed] } unless options[:failed].nil?
+      selected_scenarios.keep_if { |scenario| scenario.skipped? == options[:skipped] } unless options[:skipped].nil?
+      selected_scenarios.keep_if { |scenario| scenario.sample? == options[:samples] } unless options[:samples].nil?
+      selected_scenarios
+    end
+
     def summary
       summary_data = ["#{scenarios.size} scenarios"]
       scenarios.group_by(&:status).each do | _status, group |
@@ -69,7 +91,11 @@ module Crosstest
       summary_data.join("\n  ")
     end
 
-    acts_on_scenario :clear
-    acts_on_scenario :exec
+    acts_on_scenario :test
+    Scenario::FSM::TRANSITIONS.each do | transition |
+      acts_on_scenario transition
+    end
   end
 end
+
+Crosstest.mutex = Mutex.new
