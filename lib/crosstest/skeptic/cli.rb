@@ -7,18 +7,65 @@ module Crosstest
 
       no_commands do
         def update_config!
+          Crosstest::Skeptic.configuration.manifest_file = options[:skeptic]
+          autogenerate_manifest if options[:glob]
           runner_opts = { cwd: Dir.pwd, cli: shell, parameters: options.parameters }
           runner_opts.merge!(Crosstest::Core::Util.symbolized_hash(options))
           @psychic = Crosstest::Psychic.new(runner_opts)
           @skeptic = Crosstest::Skeptic.new(@psychic)
         end
+
+        def autogenerate_manifest
+          data = { suites: {} }
+          suites = Dir[*options[:glob]].group_by do | file |
+            Pathname(file).dirname.to_s
+          end
+          suites.each do | suite, files |
+            data[:suites][suite] = {}
+            data[:suites][suite][:samples] = files
+          end
+          Crosstest::Skeptic.configuration.manifest = TestManifest.new(data)
+        end
       end
     end
 
-    class CLI < BaseCLI
+    class CLI < BaseCLI # rubocop:disable Metrics/ClassLength
       # The maximum number of concurrent instances that can run--which is a bit
       # high
       MAX_CONCURRENCY = 9999
+
+      desc 'code2doc [SCENARIO|REGEXP|all]',
+           'Convert scripts for code samples to lightweight documentation formats'
+      method_option :skeptic,
+                    aliases: '-s',
+                    desc: 'The Skeptic test manifest file',
+                    default: 'skeptic.yaml'
+      method_option :test_dir,
+                    aliases: '-t',
+                    desc: 'The Crosstest test directory',
+                    default: 'tests/crosstest'
+      method_option :glob,
+                    type: :array,
+                    aliases: '-g',
+                    desc: 'Automatically build scenarios for samples matching the glob pattern(s)',
+                    lazy_default: true
+      method_option :format,
+                    enum: %w(md rst),
+                    default: 'md',
+                    desc: 'Target documentation format'
+      method_option :destination,
+                    aliases: '-d',
+                    default: 'docs/',
+                    desc: 'The target directory where documentation for generated documentation.'
+      method_option :glob,
+                    type: :array,
+                    aliases: '-g',
+                    desc: 'Automatically build scenarios for samples matching the glob pattern(s)'
+      def code2doc(regex = 'all')
+        update_config!
+        action_options = options.dup
+        skeptic.public_send(:code2doc, regex, action_options)
+      end
 
       desc 'test [SCENARIO|REGEXP|all]',
            'Test (clone, bootstrap, exec, and verify) one or more scenarios'
@@ -46,6 +93,10 @@ module Crosstest
                     aliases: '-t',
                     desc: 'The Crosstest test directory',
                     default: 'tests/crosstest'
+      method_option :glob,
+                    type: :array,
+                    aliases: '-g',
+                    desc: 'Automatically build scenarios for samples matching the glob pattern(s)'
       def test(regex = 'all')
         update_config!
         action_options = options.dup

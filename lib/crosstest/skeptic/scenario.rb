@@ -1,5 +1,4 @@
 require 'benchmark'
-require 'crosstest/code2doc/helpers/code_helper'
 
 # TODO: This class really needs to be split-up - and probably renamed.
 #
@@ -28,7 +27,7 @@ module Crosstest
       include Crosstest::Core::Logging
       include Crosstest::Core::Util::String
       # View helpers
-      include Crosstest::Code2Doc::Helpers::CodeHelper
+      # include Crosstest::Code2Doc::Helpers::CodeHelper
 
       field :scenario_definition, ScenarioDefinition
       required_field :psychic, Crosstest::Psychic
@@ -38,7 +37,7 @@ module Crosstest
 
       def_delegators :scenario_definition, :name, :suite, :full_name
       def_delegators :psychic, :basedir, :logger
-      # def_delegators :code_sample, :source_file, :absolute_source_file
+      # def_delegators :code_sample, :source_file, :absolute_source_file, :source
       def_delegators :evidence, :save
       KEYS_TO_PERSIST = [:last_attempted_action, :last_completed_action, :result,
                          :spy_data, :error, :duration]
@@ -62,18 +61,40 @@ module Crosstest
         Crosstest::Skeptic::ValidatorRegistry.validators_for self
       end
 
-      def absolute_source_file
-        return nil if source_file.nil?
+      def code_sample
+        self[:code_sample] ||= psychic.script(name)
+      rescue Errno::ENOENT
+        nil
+      end
 
-        File.expand_path source_file, basedir
+      def source_file
+        return nil unless code_sample
+
+        self[:source_file] ||= Pathname(code_sample)
+      end
+
+      def absolute_source_file
+        return nil unless code_sample
+
+        code_sample.absolute_source_file
+      end
+
+      def source
+        return nil unless code_sample
+
+        code_sample.source
+      end
+
+      def code2doc(options = {})
+        return nil unless code_sample
+
+        doc = code_sample.code2doc(options)
       end
 
       def detect!
         # fail FeatureNotImplementedError, "Project #{psychic.name} has not been cloned" unless psychic.cloned?
-        self.code_sample = psychic.script(name)
-        self.source_file = Pathname(code_sample)
         fail FeatureNotImplementedError, name if source_file.nil?
-        fail FeatureNotImplementedError, name unless File.exist?(absolute_source_file)
+        self.source_file = Pathname(code_sample)
       rescue Errno::ENOENT
         raise FeatureNotImplementedError, name
       end

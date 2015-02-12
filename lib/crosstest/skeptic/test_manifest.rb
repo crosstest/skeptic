@@ -57,11 +57,21 @@ module Crosstest
       def build_scenario_definitions
         definitions = Set.new
         suites.each do | suite_name, suite |
-          suite.samples.each do | sample |
-            definitions << ScenarioDefinition.new(name: sample, suite: suite_name, vars: suite.env)
+          suite.samples.each do | sample_pattern |
+            expand_pattern(sample_pattern).each do | sample |
+              definitions << ScenarioDefinition.new(name: sample, suite: suite_name, vars: suite.env)
+            end
           end
         end
         definitions
+      end
+
+      private
+
+      def expand_pattern(pattern)
+        return [pattern] unless pattern.include? '*'
+
+        Dir[pattern].to_a
       end
     end
   end

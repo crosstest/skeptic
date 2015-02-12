@@ -63,14 +63,3 @@ RSpec.configure do |config|
   config.order = :random
   Kernel.srand config.seed
 end
-
-RSpec.shared_examples 'says hello' do
-  subject { Skeptic.new(cwd: current_dir).script('hello') }
-
-  it 'says hello' do
-    Crosstest::Skeptic.validate('hello') do | result |
-      expect(result.stdout).to eq(/\AHello, world!\Z/)
-    end
-    subject.test
-  end
-end

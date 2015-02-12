@@ -1,7 +1,6 @@
 require 'rspec/expectations' # exceptions are being stored as classes, so this is needed to load
 require 'crosstest/core'
 require 'crosstest/psychic'
-require 'crosstest/code2doc'
 require 'crosstest/skeptic/version'
 require 'crosstest/skeptic/errors'
 
@@ -32,11 +31,29 @@ module Crosstest
           end
         end
       end
+
+      def acts_on_scenario_with_options(action)
+        define_method action do | regex = 'all', options = {} |
+          scenarios(regex, options).each do | scenario |
+            scenario.public_send(action, options)
+          end
+        end
+      end
+
+      # Registers a {Crosstest::Skeptic::Validator} that will be used during test
+      # execution on matching {Crosstest::Skeptic::Scenario}s.
+      def validate(desc, scope = { suite: //, scenario: // }, &block)
+        fail ArgumentError, 'You must pass block' unless block_given?
+        validator = Crosstest::Skeptic::Validator.new(desc, scope, &block)
+
+        Crosstest::Skeptic::ValidatorRegistry.register validator
+        validator
+      end
     end
 
     def initialize(psychic = Psychic.new)
+      psychic = Psychic.new(psychic) if psychic.is_a? Hash
       @psychic = psychic
-      @scenarios ||= build_scenarios
     end
 
     def manifest
@@ -57,13 +74,17 @@ module Crosstest
       scenarios.find { |s| s.name == name }
     end
 
+    def all_scenarios
+      @scenarios ||= build_scenarios
+    end
+
     def select_scenarios(regexp)
       regexp ||= 'all'
       if regexp == 'all'
-        return @scenarios
+        return all_scenarios
       else
-        selected_scenarios = @scenarios.find { |c| c.full_name == regexp } ||
-                             @scenarios.select { |c| c.full_name =~ /#{regexp}/i }
+        selected_scenarios = all_scenarios.find { |c| c.full_name == regexp } ||
+                             all_scenarios.select { |c| c.full_name =~ /#{regexp}/i }
       end
 
       if selected_scenarios.is_a? Array
@@ -91,6 +112,7 @@ module Crosstest
       summary_data.join("\n  ")
     end
 
+    acts_on_scenario_with_options :code2doc
     acts_on_scenario :test
     Scenario::FSM::TRANSITIONS.each do | transition |
       acts_on_scenario transition
