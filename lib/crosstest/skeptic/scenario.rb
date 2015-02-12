@@ -109,6 +109,8 @@ module Crosstest
           code_sample.env = vars.merge(ENV.to_hash)
           if code_sample.params.is_a? String
             code_sample.params = YAML.load(Psychic::Tokens.replace_tokens(code_sample.params, vars))
+          else
+            code_sample.params = vars
           end
           execution_result = code_sample.execute(env: vars)
           evidence.result = Skeptic::Result.new(execution_result: execution_result, source_file: source_file.to_s)
