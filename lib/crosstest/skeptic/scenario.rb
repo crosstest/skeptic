@@ -27,7 +27,7 @@ module Crosstest
       include Crosstest::Core::Logging
       include Crosstest::Core::Util::String
       # View helpers
-      # include Crosstest::Code2Doc::Helpers::CodeHelper
+      include Crosstest::Psychic::Code2Doc::CodeHelper
 
       field :scenario_definition, ScenarioDefinition
       required_field :psychic, Crosstest::Psychic
