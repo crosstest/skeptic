@@ -1,6 +1,7 @@
 module Crosstest
   class Skeptic
     class Configuration < Crosstest::Core::Dash
+      field :seed, Integer, default: Process.pid # or Random.new_seed
       field :manifest, TestManifest
       field :manifest_file, Pathname, default: 'skeptic.yaml'
 
@@ -14,6 +15,7 @@ module Crosstest
       end
 
       def load_manifest
+        ENV['SKEPTIC_SEED'] = seed.to_s
         Skeptic::TestManifest.from_yaml manifest_file
       rescue Errno::ENOENT => e
         raise UserError, "Could not load test manifest: #{e.message}"

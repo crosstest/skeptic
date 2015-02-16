@@ -106,13 +106,12 @@ module Crosstest
 
       def run!(spies = Crosstest::Skeptic::Spies) # rubocop:disable Metrics/AbcSize
         spies.observe(self) do
-          code_sample.env = vars.merge(ENV.to_hash)
           if code_sample.params.is_a? String
             code_sample.params = YAML.load(Psychic::Tokens.replace_tokens(code_sample.params, vars))
           else
             code_sample.params = vars
           end
-          execution_result = code_sample.execute(env: vars)
+          execution_result = code_sample.execute(env: upcased_hash(vars).merge(ENV.to_hash))
           evidence.result = Skeptic::Result.new(execution_result: execution_result, source_file: source_file.to_s)
         end
         result
@@ -152,6 +151,16 @@ module Crosstest
       def validations
         return nil if result.nil?
         result.validations
+      end
+
+      private
+
+      def upcased_hash(hash)
+        new_hash = {}
+        hash.each_pair do | key, value |
+          new_hash[key.upcase] = value
+        end
+        new_hash
       end
     end
   end
