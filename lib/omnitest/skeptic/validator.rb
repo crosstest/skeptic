@@ -20,9 +20,9 @@ module Omnitest
 
       def validate(scenario)
         instance_exec(scenario, &@callback) if should_validate?(scenario)
-        scenario.result.validations[description] = Validation.new(result: :passed)
+        scenario.result.validations[description] = Validation.new(status: :passed)
       rescue StandardError, RSpec::Expectations::ExpectationNotMetError => e
-        validation = Validation.new(result: :failed, error: ValidationFailure.new(e.message, e))
+        validation = Validation.new(status: :failed, error: ValidationFailure.new(e.message, e))
         scenario.result.validations[description] = validation
       end
 

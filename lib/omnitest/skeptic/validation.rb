@@ -4,11 +4,11 @@ module Omnitest
       # TODO: Should we have (expectation) 'failed' vs (unexpected) 'error'?
       ALLOWABLE_STATES = %w(passed pending failed skipped)
 
-      required_field :result, Symbol
+      required_field :status, Symbol
       field :error, Object
       field :error_source, Object
 
-      def result=(state)
+      def status=(state)
         state = state.to_s
         fail invalidate_state_error unless ALLOWABLE_STATES.include? state
         super
@@ -16,7 +16,7 @@ module Omnitest
 
       ALLOWABLE_STATES.each do |state|
         define_method "#{state}?" do
-          result == state?
+          status == state?
         end
       end
 
@@ -32,7 +32,7 @@ module Omnitest
       protected
 
       def invalidate_state_error(state)
-        ArgumentError.new "Invalid result state: #{state}, should be one of #{ALLOWABLE_STATES.inspect}"
+        ArgumentError.new "Invalid status: #{state}, should be one of #{ALLOWABLE_STATES.inspect}"
       end
     end
   end
