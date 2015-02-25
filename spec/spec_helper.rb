@@ -1,7 +1,7 @@
 require 'simplecov'
 SimpleCov.start
 
-require 'crosstest/skeptic'
+require 'omnitest/skeptic'
 require 'fabrication'
 
 # For Fabricators
@@ -13,7 +13,7 @@ SCENARIO_NAMES = [
 ]
 
 require 'rspec'
-require 'crosstest/skeptic'
+require 'omnitest/skeptic'
 require 'aruba'
 require 'aruba/api'
 
@@ -28,7 +28,7 @@ end
 
 RSpec.configure do |c|
   c.before(:each) do
-    Crosstest::Skeptic.reset
+    Omnitest::Skeptic.reset
   end
   c.expose_current_running_example_as :example
 end

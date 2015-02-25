@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-module Crosstest
+module Omnitest
   class Skeptic
     RSpec.describe Evidence do
       let(:file) { Pathname('evidence.pstore').expand_path(current_dir) }

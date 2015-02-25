@@ -1,4 +1,4 @@
-module Crosstest
+module Omnitest
   class Skeptic
     module TestStatuses
       def failed?

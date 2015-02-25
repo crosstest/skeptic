@@ -1,6 +1,6 @@
 require 'middleware'
 
-module Crosstest
+module Omnitest
   class Skeptic
     module Spies
       class << self

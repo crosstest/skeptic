@@ -1,8 +1,8 @@
-module Crosstest
+module Omnitest
   class Skeptic
     describe Scenario do
       subject(:scenario) do
-        project = Crosstest::Psychic.new name: 'some_sdk', cwd: 'spec/fixtures'
+        project = Omnitest::Psychic.new name: 'some_sdk', cwd: 'spec/fixtures'
         Fabricate(:scenario_definition, name: 'factorial', vars: {}).build(project)
       end
 

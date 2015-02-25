@@ -1,8 +1,8 @@
 require 'yaml'
 
-module Crosstest
+module Omnitest
   class Skeptic
-    # Crosstest::TestManifest acts as a test manifest. It defines the test scenarios that should be run,
+    # Omnitest::TestManifest acts as a test manifest. It defines the test scenarios that should be run,
     # and may be shared across multiple projects when used for a compliance suite.
     #
     # A manifest is generally defined and loaded from YAML. Here's an example manifest:
@@ -29,16 +29,16 @@ module Crosstest
     # The *global_env* values will be made available to all tests as environment variables, along with the *env*
     # values for that specific test.
     #
-    class TestManifest < Crosstest::Core::Dash
+    class TestManifest < Omnitest::Core::Dash
       include Core::DefaultLogger
-      include Crosstest::Core::Logging
-      extend Crosstest::Core::Dash::Loadable
+      include Omnitest::Core::Logging
+      extend Omnitest::Core::Dash::Loadable
 
-      class Environment < Crosstest::Core::Mash
+      class Environment < Omnitest::Core::Mash
         coerce_value Integer, String
       end
 
-      class Suite < Crosstest::Core::Dash
+      class Suite < Omnitest::Core::Dash
         field :env, Environment, default: {}
         field :samples, Array[String], required: true
         field :results, Hash

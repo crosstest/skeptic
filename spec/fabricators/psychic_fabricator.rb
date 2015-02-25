@@ -1,6 +1,6 @@
-# Fabricates test manifests (.crosstest.yaml files)
+# Fabricates test manifests (.omnitest.yaml files)
 
-Fabricator(:psychic, from: Crosstest::Psychic) do
+Fabricator(:psychic, from: Omnitest::Psychic) do
   initialize_with do
     transients = @_transient_attributes.to_hash
     transients[:name] ||= 'my_sample_project'

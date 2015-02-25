@@ -1,4 +1,4 @@
-module Crosstest
+module Omnitest
   class Skeptic
     describe TestManifest do
       describe '#from_yaml' do

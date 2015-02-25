@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-module Crosstest
+module Omnitest
   class Skeptic
     RSpec.describe ScenarioDefinition do
       let(:psychic) { Fabricate(:psychic) }

@@ -1,8 +1,8 @@
 require 'pstore'
 
-module Crosstest
+module Omnitest
   class Skeptic
-    class Evidence < Crosstest::Core::Dash
+    class Evidence < Omnitest::Core::Dash
       module Persistable
         attr_reader :file
         attr_writer :autosave

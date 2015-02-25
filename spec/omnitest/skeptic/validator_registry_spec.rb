@@ -1,7 +1,7 @@
-module Crosstest
+module Omnitest
   class Skeptic
     describe ValidatorRegistry do
-      subject(:registry) { Crosstest::Skeptic::ValidatorRegistry }
+      subject(:registry) { Omnitest::Skeptic::ValidatorRegistry }
 
       describe '#register' do
         it 'registers a validator' do

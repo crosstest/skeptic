@@ -1,4 +1,4 @@
-module Crosstest
+module Omnitest
   class Skeptic
     class Validator
       include RSpec::Matchers

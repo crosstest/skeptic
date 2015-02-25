@@ -1,8 +1,8 @@
-module Crosstest
+module Omnitest
   class Skeptic
-    class Result < Crosstest::Core::Dash
+    class Result < Omnitest::Core::Dash
       extend Forwardable
-      field :execution_result, Crosstest::Shell::ExecutionResult
+      field :execution_result, Omnitest::Shell::ExecutionResult
       def_delegators :execution_result, :stdout, :stderr, :exitstatus
       field :source_file, Pathname
       field :data, Hash

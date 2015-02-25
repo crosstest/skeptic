@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-module Crosstest
+module Omnitest
   RSpec.describe Skeptic do
     before(:each) do | _example |
       write_file 'skeptic.yaml', <<-eos

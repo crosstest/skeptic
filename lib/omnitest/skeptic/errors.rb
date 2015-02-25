@@ -1,4 +1,4 @@
-module Crosstest
+module Omnitest
   class Skeptic
     # Exception class capturing what caused an scenario to die.
     class ScenarioFailure < TransientFailure; end

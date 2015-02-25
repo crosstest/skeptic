@@ -1,18 +1,18 @@
-require 'crosstest/skeptic'
+require 'omnitest/skeptic'
 
-module Crosstest
+module Omnitest
   class Skeptic
-    class BaseCLI < Crosstest::Core::CLI
+    class BaseCLI < Omnitest::Core::CLI
       attr_accessor :psychic, :skeptic
 
       no_commands do
         def update_config!
-          Crosstest::Skeptic.configuration.manifest_file = options[:skeptic]
+          Omnitest::Skeptic.configuration.manifest_file = options[:skeptic]
           autogenerate_manifest if options[:glob]
           runner_opts = { cwd: Dir.pwd, cli: shell, parameters: options.parameters }
-          runner_opts.merge!(Crosstest::Core::Util.symbolized_hash(options))
-          @psychic = Crosstest::Psychic.new(runner_opts)
-          @skeptic = Crosstest::Skeptic.new(@psychic)
+          runner_opts.merge!(Omnitest::Core::Util.symbolized_hash(options))
+          @psychic = Omnitest::Psychic.new(runner_opts)
+          @skeptic = Omnitest::Skeptic.new(@psychic)
         end
 
         def autogenerate_manifest
@@ -24,7 +24,7 @@ module Crosstest
             data[:suites][suite] = {}
             data[:suites][suite][:samples] = files
           end
-          Crosstest::Skeptic.configuration.manifest = TestManifest.new(data)
+          Omnitest::Skeptic.configuration.manifest = TestManifest.new(data)
         end
       end
     end
@@ -42,8 +42,8 @@ module Crosstest
                     default: 'skeptic.yaml'
       method_option :test_dir,
                     aliases: '-t',
-                    desc: 'The Crosstest test directory',
-                    default: 'tests/crosstest'
+                    desc: 'The Omnitest test directory',
+                    default: 'tests/omnitest'
       method_option :glob,
                     type: :array,
                     aliases: '-g',
@@ -91,8 +91,8 @@ module Crosstest
                     default: 'skeptic.yaml'
       method_option :test_dir,
                     aliases: '-t',
-                    desc: 'The Crosstest test directory',
-                    default: 'tests/crosstest'
+                    desc: 'The Omnitest test directory',
+                    default: 'tests/omnitest'
       method_option :glob,
                     type: :array,
                     aliases: '-g',
@@ -135,16 +135,16 @@ module Crosstest
                       desc: 'Set the log level (debug, info, warn, error, fatal)'
         method_option :file,
                       aliases: '-f',
-                      desc: 'The Crosstest project set file',
-                      default: 'crosstest.yaml'
+                      desc: 'The Omnitest project set file',
+                      default: 'omnitest.yaml'
         method_option :skeptic,
                       aliases: '-s',
                       desc: 'The Skeptic test manifest file',
                       default: 'skeptic.yaml'
         method_option :test_dir,
                       aliases: '-t',
-                      desc: 'The Crosstest test directory',
-                      default: 'tests/crosstest'
+                      desc: 'The Omnitest test directory',
+                      default: 'tests/omnitest'
         define_method(action) do |regex = 'all'|
           update_config!
           action_options = options.dup

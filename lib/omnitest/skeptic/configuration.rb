@@ -1,6 +1,6 @@
-module Crosstest
+module Omnitest
   class Skeptic
-    class Configuration < Crosstest::Core::Dash
+    class Configuration < Omnitest::Core::Dash
       field :seed, Integer, default: Process.pid # or Random.new_seed
       field :manifest, TestManifest
       field :manifest_file, Pathname, default: 'skeptic.yaml'
@@ -37,7 +37,7 @@ module Crosstest
       attr_writer :default_validator_callback
 
       def register_spy(spy)
-        Crosstest::Skeptic::Spies.register_spy(spy)
+        Omnitest::Skeptic::Spies.register_spy(spy)
       end
 
       def clear

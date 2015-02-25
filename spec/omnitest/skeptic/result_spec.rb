@@ -1,15 +1,15 @@
 require 'spec_helper'
 
-module Crosstest
+module Omnitest
   class Skeptic
     describe Result do
       describe '#status' do
         context 'mixed pass/fail' do
           let(:subject) do
-            Crosstest::Skeptic::Result.new(
+            Omnitest::Skeptic::Result.new(
               validations: {
                 'max' => { result: 'passed' },
-                'crosstest' => { result: 'failed', error: 'foo!' }
+                'omnitest' => { result: 'failed', error: 'foo!' }
               }
             ).status
           end
@@ -19,10 +19,10 @@ module Crosstest
         end
         context 'mix passed/pending/skipped' do
           let(:subject) do
-            Crosstest::Skeptic::Result.new(
+            Omnitest::Skeptic::Result.new(
               validations: {
                 'max' => { result: 'passed' },
-                'crosstest' => { result: 'pending' },
+                'omnitest' => { result: 'pending' },
                 'john doe' => { result: 'skipped' }
               }
             ).status
@@ -33,10 +33,10 @@ module Crosstest
         end
         context 'mix pending/skipped' do
           let(:subject) do
-            Crosstest::Skeptic::Result.new(
+            Omnitest::Skeptic::Result.new(
               validations: {
                 'max' => { result: 'pending' },
-                'crosstest' => { result: 'pending' },
+                'omnitest' => { result: 'pending' },
                 'john doe' => { result: 'skipped' }
               }
             ).status

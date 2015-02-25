@@ -1,6 +1,6 @@
 require 'singleton'
 
-module Crosstest
+module Omnitest
   class Skeptic
     class ValidatorRegistry
       include Singleton

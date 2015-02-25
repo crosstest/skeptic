@@ -5,7 +5,7 @@ require 'benchmark'
 # There's a few things happening here:
 #   There's the "Scenario" - probably better named "Scenario" - this
 #   is *what* we want to test, i.e. "Fog - Upload Directory". It should
-#   only rely on parsing crosstest.yaml.
+#   only rely on parsing omnitest.yaml.
 #
 #   Then there's the "Code Sample" - the code to be tested to verify the
 #   scenario. This can probably be moved to Psychic, since Psychic finds
@@ -17,20 +17,20 @@ require 'benchmark'
 #   Finally, there's the driver, including the FSM class at the bottom of
 #   this file. It's responsible for managing the test lifecycle.
 
-module Crosstest
+module Omnitest
   class Skeptic
-    class Scenario < Crosstest::Core::Dash # rubocop:disable ClassLength
+    class Scenario < Omnitest::Core::Dash # rubocop:disable ClassLength
       extend Forwardable
       include Skeptic::TestTransitions
       include Skeptic::TestStatuses
-      include Crosstest::Core::FileSystem
-      include Crosstest::Core::Logging
-      include Crosstest::Core::Util::String
+      include Omnitest::Core::FileSystem
+      include Omnitest::Core::Logging
+      include Omnitest::Core::Util::String
       # View helpers
-      include Crosstest::Psychic::Code2Doc::CodeHelper
+      include Omnitest::Psychic::Code2Doc::CodeHelper
 
       field :scenario_definition, ScenarioDefinition
-      required_field :psychic, Crosstest::Psychic
+      required_field :psychic, Omnitest::Psychic
       field :vars, Skeptic::TestManifest::Environment, default: {}
       field :code_sample, Psychic::Script
       field :source_file, Pathname
@@ -50,7 +50,7 @@ module Crosstest
       def initialize(data)
         super
         @slug = slugify(suite, name, psychic.name)
-        @evidence_file = Pathname.new(Crosstest.basedir).join('.crosstest', "#{slug}.pstore").expand_path.freeze
+        @evidence_file = Pathname.new(Omnitest.basedir).join('.omnitest', "#{slug}.pstore").expand_path.freeze
       end
 
       def evidence(initial_data = {})
@@ -58,7 +58,7 @@ module Crosstest
       end
 
       def validators
-        Crosstest::Skeptic::ValidatorRegistry.validators_for self
+        Omnitest::Skeptic::ValidatorRegistry.validators_for self
       end
 
       def code_sample
@@ -104,7 +104,7 @@ module Crosstest
         evidence.result = run!
       end
 
-      def run!(spies = Crosstest::Skeptic::Spies) # rubocop:disable Metrics/AbcSize
+      def run!(spies = Omnitest::Skeptic::Spies) # rubocop:disable Metrics/AbcSize
         spies.observe(self) do
           if code_sample.params.is_a? String
             code_sample.params = YAML.load(Psychic::Tokens.replace_tokens(code_sample.params, vars))
@@ -115,13 +115,13 @@ module Crosstest
           evidence.result = Skeptic::Result.new(execution_result: execution_result, source_file: source_file.to_s)
         end
         result
-      rescue Crosstest::Shell::ExecutionError => e
+      rescue Omnitest::Shell::ExecutionError => e
         execution_error = ExecutionError.new(e)
         execution_error.execution_result = e.execution_result
-        evidence.error = Crosstest::Error.formatted_trace(e).join("\n")
+        evidence.error = Omnitest::Error.formatted_trace(e).join("\n")
         raise execution_error
       rescue => e
-        evidence.error = Crosstest::Error.formatted_trace(e).join("\n")
+        evidence.error = Omnitest::Error.formatted_trace(e).join("\n")
         raise e
       ensure
         save
@@ -135,7 +135,7 @@ module Crosstest
                      Core::Color.colorize("\u2713 Passed", :green)
                    when :failed
                      Core::Color.colorize('x Failed', :red)
-                     Crosstest.handle_validation_failure(validation.error)
+                     Omnitest.handle_validation_failure(validation.error)
                    else
                      Core::Color.colorize(validation.result, :yellow)
                    end

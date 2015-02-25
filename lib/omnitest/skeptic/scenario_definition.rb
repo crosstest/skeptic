@@ -1,6 +1,6 @@
-module Crosstest
+module Omnitest
   class Skeptic
-    class ScenarioDefinition < Crosstest::Core::Dash # rubocop:disable ClassLength
+    class ScenarioDefinition < Omnitest::Core::Dash # rubocop:disable ClassLength
       required_field :name, String
       required_field :suite, String, required: true
       field :properties, Hash[String => PropertyDefinition]
@@ -30,7 +30,7 @@ module Crosstest
       def build_vars
         # TODO: Build vars from properties
         global_vars = begin
-          Crosstest.manifest[:global_env].dup
+          Omnitest.manifest[:global_env].dup
         rescue
           {}
         end

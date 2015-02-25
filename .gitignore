@@ -2,5 +2,5 @@ Gemfile.lock
 tmp/
 coverage/
 site/
-.crosstest/
+.omnitest/
 reports/

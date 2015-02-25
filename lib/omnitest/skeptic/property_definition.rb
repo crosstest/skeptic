@@ -1,6 +1,6 @@
-module Crosstest
+module Omnitest
   class Skeptic
-    class PropertyDefinition < Crosstest::Core::Dash # rubocop:disable ClassLength
+    class PropertyDefinition < Omnitest::Core::Dash # rubocop:disable ClassLength
       field :required, Object, default: false
       field :default, String
     end

@@ -1,25 +1,25 @@
 require 'rspec/expectations' # exceptions are being stored as classes, so this is needed to load
-require 'crosstest/core'
-require 'crosstest/psychic'
-require 'crosstest/skeptic/version'
-require 'crosstest/skeptic/errors'
+require 'omnitest/core'
+require 'omnitest/psychic'
+require 'omnitest/skeptic/version'
+require 'omnitest/skeptic/errors'
 
-module Crosstest
+module Omnitest
   class Skeptic
-    autoload :Configuration, 'crosstest/skeptic/configuration'
-    autoload :ScenarioDefinition, 'crosstest/skeptic/scenario_definition'
-    autoload :PropertyDefinition, 'crosstest/skeptic/property_definition'
-    autoload :Scenario, 'crosstest/skeptic/scenario'
-    autoload :TestStatuses, 'crosstest/skeptic/test_statuses'
-    autoload :TestTransitions, 'crosstest/skeptic/test_transitions'
-    autoload :TestManifest, 'crosstest/skeptic/test_manifest'
-    autoload :Evidence, 'crosstest/skeptic/evidence'
-    autoload :Result, 'crosstest/skeptic/result'
-    autoload :Spy, 'crosstest/skeptic/spy'
-    autoload :Spies, 'crosstest/skeptic/spies'
-    autoload :Validation, 'crosstest/skeptic/validation'
-    autoload :Validator, 'crosstest/skeptic/validator'
-    autoload :ValidatorRegistry, 'crosstest/skeptic/validator_registry'
+    autoload :Configuration, 'omnitest/skeptic/configuration'
+    autoload :ScenarioDefinition, 'omnitest/skeptic/scenario_definition'
+    autoload :PropertyDefinition, 'omnitest/skeptic/property_definition'
+    autoload :Scenario, 'omnitest/skeptic/scenario'
+    autoload :TestStatuses, 'omnitest/skeptic/test_statuses'
+    autoload :TestTransitions, 'omnitest/skeptic/test_transitions'
+    autoload :TestManifest, 'omnitest/skeptic/test_manifest'
+    autoload :Evidence, 'omnitest/skeptic/evidence'
+    autoload :Result, 'omnitest/skeptic/result'
+    autoload :Spy, 'omnitest/skeptic/spy'
+    autoload :Spies, 'omnitest/skeptic/spies'
+    autoload :Validation, 'omnitest/skeptic/validation'
+    autoload :Validator, 'omnitest/skeptic/validator'
+    autoload :ValidatorRegistry, 'omnitest/skeptic/validator_registry'
 
     class << self
       include Core::Configurable
@@ -40,13 +40,13 @@ module Crosstest
         end
       end
 
-      # Registers a {Crosstest::Skeptic::Validator} that will be used during test
-      # execution on matching {Crosstest::Skeptic::Scenario}s.
+      # Registers a {Omnitest::Skeptic::Validator} that will be used during test
+      # execution on matching {Omnitest::Skeptic::Scenario}s.
       def validate(desc, scope = { suite: //, scenario: // }, &block)
         fail ArgumentError, 'You must pass block' unless block_given?
-        validator = Crosstest::Skeptic::Validator.new(desc, scope, &block)
+        validator = Omnitest::Skeptic::Validator.new(desc, scope, &block)
 
-        Crosstest::Skeptic::ValidatorRegistry.register validator
+        Omnitest::Skeptic::ValidatorRegistry.register validator
         validator
       end
     end
@@ -120,4 +120,4 @@ module Crosstest
   end
 end
 
-Crosstest.mutex = Mutex.new
+Omnitest.mutex = Mutex.new

@@ -1,4 +1,4 @@
-module Crosstest
+module Omnitest
   class Skeptic
     # # @abstract
     class Spy

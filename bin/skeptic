@@ -1,4 +1,4 @@
 #!/usr/bin/env ruby
-require 'crosstest/skeptic/cli'
+require 'omnitest/skeptic/cli'
 
-Crosstest::Skeptic::CLI.start
+Omnitest::Skeptic::CLI.start

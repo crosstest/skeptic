@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-module Crosstest
+module Omnitest
   class Skeptic
     describe 'Validator' do
       describe '#initialize' do

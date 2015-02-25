@@ -1,4 +1,4 @@
-module Crosstest
+module Omnitest
   class Skeptic
     module TestTransitions
       def detect
@@ -82,7 +82,7 @@ module Crosstest
       rescue ActionFailed => e
         log_failure(what, e)
         raise(ScenarioFailure, failure_message(what) +
-          "  Please see .crosstest/logs/#{name}.log for more details",
+          "  Please see .omnitest/logs/#{name}.log for more details",
               e.backtrace)
       rescue Exception => e # rubocop:disable RescueException
         log_failure(what, e)
@@ -103,7 +103,7 @@ module Crosstest
         rescue ActionFailed => e
           # Need to use with_friendly_errors again somewhere, since errors don't bubble up
           # without fast-fail?
-          Crosstest.handle_error(e)
+          Omnitest.handle_error(e)
           raise(ScenarioFailure, e.message, e.backtrace)
         end
         transition_result

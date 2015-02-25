@@ -1,6 +1,6 @@
-module Crosstest
+module Omnitest
   class Skeptic
-    class Validation < Crosstest::Core::Dash
+    class Validation < Omnitest::Core::Dash
       # TODO: Should we have (expectation) 'failed' vs (unexpected) 'error'?
       ALLOWABLE_STATES = %w(passed pending failed skipped)
 
