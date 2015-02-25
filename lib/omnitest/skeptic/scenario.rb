@@ -130,14 +130,14 @@ module Omnitest
       def verify!
         validators.each do |validator|
           validation = validator.validate(self)
-          status = case validation.result
+          status = case validation.status
                    when :passed
                      Core::Color.colorize("\u2713 Passed", :green)
                    when :failed
                      Core::Color.colorize('x Failed', :red)
                      Omnitest.handle_validation_failure(validation.error)
                    else
-                     Core::Color.colorize(validation.result, :yellow)
+                     Core::Color.colorize(validation.status, :yellow)
                    end
           info format('%-50s %s', validator.description, status)
         end

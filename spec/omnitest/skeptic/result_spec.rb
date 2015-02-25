@@ -8,8 +8,8 @@ module Omnitest
           let(:subject) do
             Omnitest::Skeptic::Result.new(
               validations: {
-                'max' => { result: 'passed' },
-                'omnitest' => { result: 'failed', error: 'foo!' }
+                'max' => { status: 'passed' },
+                'omnitest' => { status: 'failed', error: 'foo!' }
               }
             ).status
           end
@@ -21,9 +21,9 @@ module Omnitest
           let(:subject) do
             Omnitest::Skeptic::Result.new(
               validations: {
-                'max' => { result: 'passed' },
-                'omnitest' => { result: 'pending' },
-                'john doe' => { result: 'skipped' }
+                'max' => { status: 'passed' },
+                'omnitest' => { status: 'pending' },
+                'john doe' => { status: 'skipped' }
               }
             ).status
           end
@@ -35,9 +35,9 @@ module Omnitest
           let(:subject) do
             Omnitest::Skeptic::Result.new(
               validations: {
-                'max' => { result: 'pending' },
-                'omnitest' => { result: 'pending' },
-                'john doe' => { result: 'skipped' }
+                'max' => { status: 'pending' },
+                'omnitest' => { status: 'pending' },
+                'john doe' => { status: 'skipped' }
               }
             ).status
           end

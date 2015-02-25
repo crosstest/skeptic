@@ -17,9 +17,9 @@ module Omnitest
       def status
         # A feature can be validated by different suites, or manually vs an automated suite.
         # That's why there's a precedence rather than boolean algebra here...
-        return 'failed' if validations.values.any? { |v| v.result == :failed }
-        return 'passed' if validations.values.any? { |v| v.result == :passed }
-        return 'pending' if validations.values.any? { |v| v.result == :pending }
+        return 'failed' if validations.values.any? { |v| v.status == :failed }
+        return 'passed' if validations.values.any? { |v| v.status == :passed }
+        return 'pending' if validations.values.any? { |v| v.status == :pending }
         'skipped'
       end
     end

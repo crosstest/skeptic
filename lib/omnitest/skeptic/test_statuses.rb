@@ -31,7 +31,7 @@ module Omnitest
         when 'exec_failed' then 'Execution Failed'
         when 'verify', 'verify_failed'
           validator_count = validators.count
-          validation_count = validations.values.select { |v| v.result == :passed }.count
+          validation_count = validations.values.select { |v| v.status == :passed }.count
           if validator_count == validation_count
             "Fully Verified (#{validation_count} of #{validator_count})"
           else
